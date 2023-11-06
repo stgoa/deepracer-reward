@@ -32,6 +32,7 @@ def reward_function(params):
     MIN_REWARD = 1e-3
     DIRECTION_THRESHOLD = 10.0
     ABS_STEERING_THRESHOLD = 30
+    MID_SPEED = 0.5
 
     ########################
     ### Input parameters ###
@@ -83,7 +84,7 @@ def reward_function(params):
 
     def straight_line_reward(current_reward, steering, speed):
         # Positive reward if the car is in a straight line going fast
-        if abs(steering) < 0.1 and speed > 3:
+        if abs(steering) < 0.1 and speed > MID_SPEED:
             current_reward *= 1.2
         return current_reward
 
@@ -118,7 +119,7 @@ def reward_function(params):
 
     def throttle_reward(current_reward, speed, steering):
         # Decrease throttle while steering
-        if speed > 2.5 - (0.4 * abs(steering)):
+        if speed > MID_SPEED - (0.4 * abs(steering)):
             current_reward *= 0.8
         return current_reward
 
