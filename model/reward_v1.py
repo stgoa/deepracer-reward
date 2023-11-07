@@ -1,3 +1,10 @@
+###############
+### Imports ###
+###############
+
+import math
+
+
 def reward_function(params):
     '''
     In @params object:
@@ -18,11 +25,6 @@ def reward_function(params):
         "closest_waypoints": [int, int]    # indices of the two nearest waypoints.
     }
     '''
-    ###############
-    ### Imports ###
-    ###############
-
-    import math
 
     #################
     ### Constants ###
@@ -32,7 +34,9 @@ def reward_function(params):
     MIN_REWARD = 1e-3
     DIRECTION_THRESHOLD = 10.0
     ABS_STEERING_THRESHOLD = 30
-    MID_SPEED = 0.5
+    MAX_SPEED = 3.0
+    MID_SPEED = MAX_SPEED / 2
+    THOTTLE_MULT = MID_SPEED
 
     ########################
     ### Input parameters ###
@@ -119,7 +123,7 @@ def reward_function(params):
 
     def throttle_reward(current_reward, speed, steering):
         # Decrease throttle while steering
-        if speed > MID_SPEED - (0.4 * abs(steering)):
+        if speed > MID_SPEED - THOTTLE_MULT * (0.4 * abs(steering)):
             current_reward *= 0.8
         return current_reward
 
